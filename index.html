@@ -18,11 +18,7 @@
   .page-header {
     background: #ffffff;
     border-bottom: 1px solid #E0D8CC;
-    padding: 16px 24px 12px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
+    padding: 14px 24px 12px;
   }
   .page-header h1 {
     font-size: 17px;
@@ -37,15 +33,65 @@
     letter-spacing: .03em;
     margin-top: 4px;
   }
-  .page-header .flight-info {
-    font-size: 10px;
-    color: #999;
-    text-align: right;
-    line-height: 2;
+
+  /* ── LOGISTICS BAR ── */
+  .logistics-bar {
+    background: #fff;
+    border-bottom: 1px solid #E0D8CC;
+    padding: 14px 24px;
+    display: flex;
+    gap: 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
   }
-  .page-header .flight-info strong {
+  .log-section {
+    flex: 1;
+    min-width: 200px;
+    padding: 0 20px 0 0;
+  }
+  .log-divider {
+    width: 1px;
+    background: #E0D8CC;
+    align-self: stretch;
+    margin: 0 20px 0 0;
+    flex-shrink: 0;
+  }
+  .log-section-title {
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: #AAA;
+    margin-bottom: 7px;
+  }
+  .log-row {
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .log-label {
+    font-size: 9px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    white-space: nowrap;
+    min-width: 62px;
+    flex-shrink: 0;
+  }
+  .log-val {
+    font-size: 11px;
     color: #1A1A1A;
-    font-weight: 500;
+  }
+  .log-val strong {
+    font-weight: 600;
+  }
+  .log-note {
+    font-size: 9.5px;
+    color: #999;
+    margin-top: 5px;
+    line-height: 1.5;
   }
 
   /* ── LEGEND ── */
@@ -195,14 +241,67 @@
 <body>
 
 <div class="page-header">
-  <div>
+  <div class="header-left">
     <h1>Coachella 2026 &nbsp;·&nbsp; Weekend 1</h1>
-    <div class="sub">79261 Spalding Dr, Bermuda Dunes CA &nbsp;·&nbsp; Apr 8–13 &nbsp;·&nbsp; All times Pacific</div>
+    <div class="sub">Apr 8–13 &nbsp;·&nbsp; All times Pacific (CT noted where relevant)</div>
   </div>
-  <div class="flight-info">
-    <div>✈ <strong>WN3290</strong> &nbsp; MDW 8:55 pm CT → LAX 11:20 pm PT &nbsp;·&nbsp; Wed Apr 8</div>
-    <div>✈ <strong>#BLRQ7E</strong> &nbsp; LAX 4:45 pm PT → MDW 10:40 pm CT &nbsp;·&nbsp; Mon Apr 13</div>
+</div>
+
+<div class="logistics-bar">
+
+  <div class="log-section">
+    <div class="log-section-title">✈ Flights</div>
+    <div class="log-row">
+      <div class="log-label">Outbound</div>
+      <div class="log-val"><strong>WN3290</strong> &nbsp; MDW 8:55 pm CT → LAX 11:20 pm PT &nbsp;·&nbsp; Wed Apr 8</div>
+    </div>
+    <div class="log-row">
+      <div class="log-label">Return</div>
+      <div class="log-val"><strong>#BLRQ7E</strong> &nbsp; LAX 4:45 pm PT → MDW 10:40 pm CT &nbsp;·&nbsp; Mon Apr 13</div>
+    </div>
+    <div class="log-note">⚠ Depart Bermuda Dunes by 12:00 pm PT on Monday — 2.5–3 hr drive to LAX</div>
   </div>
+
+  <div class="log-divider"></div>
+
+  <div class="log-section">
+    <div class="log-section-title">🏨 Hotels</div>
+    <div class="log-row">
+      <div class="log-label">Wed night</div>
+      <div class="log-val"><strong>LAX Airport Marriott</strong> &nbsp;·&nbsp; 5855 W Century Blvd, Los Angeles &nbsp;·&nbsp; Conf. <strong>77092971</strong></div>
+    </div>
+    <div class="log-note">Check in ~1 am · Check out after Erika's work day · Drive to Airbnb ~3 pm Thu</div>
+  </div>
+
+  <div class="log-divider"></div>
+
+  <div class="log-section">
+    <div class="log-section-title">🏠 Airbnb</div>
+    <div class="log-row">
+      <div class="log-label">Thu–Mon</div>
+      <div class="log-val"><strong>79261 Spalding Dr, Bermuda Dunes CA 92203</strong> &nbsp;·&nbsp; ~10 min from Empire Polo Club</div>
+    </div>
+    <div class="log-note">Arrive ~4:30 pm Thu · Check out Mon by 11 am</div>
+  </div>
+
+  <div class="log-divider"></div>
+
+  <div class="log-section">
+    <div class="log-section-title">🎡 Festival</div>
+    <div class="log-row">
+      <div class="log-label">Fri Apr 10</div>
+      <div class="log-val">Day 1 &nbsp;·&nbsp; Sabrina Carpenter headlines</div>
+    </div>
+    <div class="log-row">
+      <div class="log-label">Sat Apr 11</div>
+      <div class="log-val">Day 2 &nbsp;·&nbsp; Justin Bieber headlines</div>
+    </div>
+    <div class="log-row">
+      <div class="log-label">Sun Apr 12</div>
+      <div class="log-val">Day 3 &nbsp;·&nbsp; Karol G headlines</div>
+    </div>
+  </div>
+
 </div>
 
 <div class="legend">
@@ -222,7 +321,7 @@
 <script>
 const DAYS = [
   { label:'WED',  date:'8',   loc:'Chicago → LAX',    cls:'travel-day' },
-  { label:'THU',  date:'9',   loc:'Bermuda Dunes',     cls:'' },
+  { label:'THU',  date:'9',   loc:'LAX Marriott → Bermuda Dunes', cls:'' },
   { label:'FRI',  date:'10',  loc:'Coachella · Day 1', cls:'festival' },
   { label:'SAT',  date:'11',  loc:'Coachella · Day 2', cls:'festival' },
   { label:'SUN',  date:'12',  loc:'Coachella · Day 3', cls:'festival' },
@@ -244,10 +343,11 @@ const EVENTS = [
 
   // ── THU APR 9 ──
   { day:1, sh:0,  sm:0,  eh:0,  em:40, cls:'ev-flight',  title:'✈ Land LAX 11:20 pm',     sub:'Deplane · rental car pickup · ~40 min' },
-  { day:1, sh:0,  sm:40, eh:3,  em:0,  cls:'ev-drive',   title:'🚗 LAX → Bermuda Dunes',  sub:'I-10 East · ~2 hrs · midnight · clear roads' },
-  { day:1, sh:3,  sm:0,  eh:3,  em:20, cls:'ev-sage',    title:'🏠 Arrive Airbnb',         sub:'79261 Spalding Dr' },
-  { day:1, sh:3,  sm:20, eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
-  { day:1, sh:7,  sm:0,  eh:15, em:0,  cls:'ev-work',    title:'💻 Erika works',           sub:'9 am–5 pm CT  ·  7 am–3 pm PT' },
+  { day:1, sh:0,  sm:40, eh:1,  em:0,  cls:'ev-drive',   title:'Check in to Marriott',     sub:'LAX Airport Marriott · 5855 W Century Blvd · Conf. 77092971' },
+  { day:1, sh:1,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep · LAX Marriott',     sub:'' },
+  { day:1, sh:7,  sm:0,  eh:15, em:0,  cls:'ev-work',    title:'💻 Erika works · Marriott', sub:'9 am–5 pm CT  ·  7 am–3 pm PT' },
+  { day:1, sh:15, sm:0,  eh:16, em:30, cls:'ev-drive',   title:'🚗 LAX → Bermuda Dunes',  sub:'I-10 East · ~1.5 hrs' },
+  { day:1, sh:16, sm:30, eh:17, em:0,  cls:'ev-sage',    title:'🏠 Arrive Airbnb',         sub:'79261 Spalding Dr, Bermuda Dunes' },
 
   // ── FRI APR 10 — Day 1 ──
   { day:2, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
