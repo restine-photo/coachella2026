@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coachella 2026 · Restine</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #F5F0E8;
+    color: #1A1A1A;
+    font-size: 11px;
+  }
+
+  /* ── HEADER ── */
+  .page-header {
+    background: #ffffff;
+    border-bottom: 1px solid #E0D8CC;
+    padding: 16px 24px 12px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .page-header h1 {
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #1A1A1A;
+  }
+  .page-header .sub {
+    font-size: 10px;
+    color: #999;
+    letter-spacing: .03em;
+    margin-top: 4px;
+  }
+  .page-header .flight-info {
+    font-size: 10px;
+    color: #999;
+    text-align: right;
+    line-height: 2;
+  }
+  .page-header .flight-info strong {
+    color: #1A1A1A;
+    font-weight: 500;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    background: #F5F0E8;
+    border-bottom: 1px solid #E0D8CC;
+    padding: 7px 24px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .legend-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: #AAA;
+    margin-right: 2px;
+  }
+  .leg {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: #666;
+  }
+  .leg-swatch {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  /* ── SCROLL CONTAINER ── */
+  .cal-scroll {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: calc(100vh - 88px);
+  }
+
+  .cal-table {
+    border-collapse: collapse;
+    min-width: 860px;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  /* ── HEADER ROW ── */
+  th {
+    background: #2C2C2C;
+    color: #FAF0E6;
+    font-weight: 400;
+    text-align: center;
+    border-right: 1px solid #444;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  th.time-header {
+    background: #1A1A1A;
+    width: 56px;
+    min-width: 56px;
+  }
+  .th-inner    { padding: 10px 6px 8px; line-height: 1.35; }
+  .th-day      { font-size: 9px; color: #AAA; letter-spacing: .08em; text-transform: uppercase; }
+  .th-date     { font-size: 20px; font-weight: 200; color: #FFF; line-height: 1.1; }
+  .th-loc      { font-size: 9px; color: #C4956A; letter-spacing: .03em; margin-top: 3px; }
+
+  th.festival       { background: #2A1F00; }
+  th.festival .th-loc { color: #D4A853; }
+  th.travel-day     { background: #222; }
+
+  /* ── TIME CELLS ── */
+  td.time-cell {
+    background: #1A1A1A;
+    color: #666;
+    font-size: 9px;
+    font-weight: 400;
+    text-align: right;
+    padding: 3px 7px 0 0;
+    vertical-align: top;
+    border-right: 2px solid #333;
+    border-bottom: 1px solid #252525;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    white-space: nowrap;
+    width: 56px;
+    min-width: 56px;
+  }
+
+  /* ── DAY COLUMN (single tall td per day) ── */
+  td.day-col {
+    position: relative;
+    vertical-align: top;
+    padding: 0;
+    border-right: 1px solid #D9CCBA;
+    background: #FAF7F2;
+  }
+  td.day-col.festival-col { background: #FEFBF3; }
+  td.day-col.travel-col   { background: #F7F3EC; }
+
+  /* ── EVENT BLOCKS ── */
+  .event {
+    position: absolute;
+    left: 3px; right: 3px;
+    border-radius: 3px;
+    padding: 4px 6px;
+    overflow: hidden;
+    z-index: 3;
+    line-height: 1.35;
+  }
+  .ev-time-label {
+    display: block;
+    font-size: 8.5px;
+    opacity: .65;
+    letter-spacing: .02em;
+    margin-bottom: 2px;
+    white-space: nowrap;
+  }
+  .ev-title {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .ev-sub {
+    display: block;
+    font-size: 9px;
+    opacity: .82;
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  /* Color palette */
+  .ev-sleep  { background: #3A4A5C; color: #9BB5C8; border-left: 3px solid #2C3A4A; }
+  .ev-flight { background: #C4714A; color: #FAF0E6; border-left: 3px solid #A05030; }
+  .ev-drive  { background: #8B5E3C; color: #F0DCC8; border-left: 3px solid #6A4228; }
+  .ev-fest   { background: #D4A853; color: #2C1800; border-left: 3px solid #B88A30; }
+  .ev-sage   { background: #7A9E7E; color: #1A3020; border-left: 3px solid #5A7E5E; }
+  .ev-work   { background: #C4956A; color: #2C1000; border-left: 3px solid #A07048; }
+  .ev-indio  { background: #9B6B30; color: #FAE8D0; border-left: 3px solid #7A5020; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div>
+    <h1>Coachella 2026 &nbsp;·&nbsp; Weekend 1</h1>
+    <div class="sub">79261 Spalding Dr, Bermuda Dunes CA &nbsp;·&nbsp; Apr 8–13 &nbsp;·&nbsp; All times Pacific</div>
+  </div>
+  <div class="flight-info">
+    <div>✈ <strong>WN3290</strong> &nbsp; MDW 8:55 pm CT → LAX 11:20 pm PT &nbsp;·&nbsp; Wed Apr 8</div>
+    <div>✈ <strong>#BLRQ7E</strong> &nbsp; LAX 4:45 pm PT → MDW 10:40 pm CT &nbsp;·&nbsp; Mon Apr 13</div>
+  </div>
+</div>
+
+<div class="legend">
+  <span class="legend-label">Legend</span>
+  <div class="leg"><div class="leg-swatch" style="background:#3A4A5C"></div>Sleep</div>
+  <div class="leg"><div class="leg-swatch" style="background:#C4714A"></div>Flight</div>
+  <div class="leg"><div class="leg-swatch" style="background:#8B5E3C"></div>Drive</div>
+  <div class="leg"><div class="leg-swatch" style="background:#D4A853"></div>Coachella</div>
+  <div class="leg"><div class="leg-swatch" style="background:#7A9E7E"></div>Airbnb</div>
+  <div class="leg"><div class="leg-swatch" style="background:#C4956A"></div>Erika works (9 am–5 pm CT · 7 am–3 pm PT)</div>
+</div>
+
+<div class="cal-scroll">
+  <table class="cal-table" id="cal"></table>
+</div>
+
+<script>
+const DAYS = [
+  { label:'WED',  date:'8',   loc:'Chicago → LAX',    cls:'travel-day' },
+  { label:'THU',  date:'9',   loc:'Bermuda Dunes',     cls:'' },
+  { label:'FRI',  date:'10',  loc:'Coachella · Day 1', cls:'festival' },
+  { label:'SAT',  date:'11',  loc:'Coachella · Day 2', cls:'festival' },
+  { label:'SUN',  date:'12',  loc:'Coachella · Day 3', cls:'festival' },
+  { label:'MON',  date:'13',  loc:'LAX → Chicago',     cls:'travel-day' },
+];
+
+const START_HOUR = 0;   // midnight
+const END_HOUR   = 24;  // midnight
+const PX = 68;          // px per hour
+
+// All times PT. Hours > 24 = next-day early morning.
+const EVENTS = [
+
+  // ── WED APR 8 ──
+  { day:0, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',  title:'Sleep',                    sub:'' },
+  { day:0, sh:19, sm:0,  eh:19, em:55, cls:'ev-drive',   title:'Head to Midway',           sub:'MDW · close by' },
+  { day:0, sh:19, sm:55, eh:20, em:55, cls:'ev-flight',  title:'At MDW · WN3290',          sub:'Check-in · security · gate' },
+  { day:0, sh:20, sm:55, eh:24, em:0,  cls:'ev-flight',  title:'✈ MDW → LAX',              sub:'Departs 8:55 pm CT · 4h 25m · lands LAX 11:20 pm PT' },
+
+  // ── THU APR 9 ──
+  { day:1, sh:0,  sm:0,  eh:0,  em:40, cls:'ev-flight',  title:'✈ Land LAX 11:20 pm',     sub:'Deplane · rental car pickup · ~40 min' },
+  { day:1, sh:0,  sm:40, eh:3,  em:0,  cls:'ev-drive',   title:'🚗 LAX → Bermuda Dunes',  sub:'I-10 East · ~2 hrs · midnight · clear roads' },
+  { day:1, sh:3,  sm:0,  eh:3,  em:20, cls:'ev-sage',    title:'🏠 Arrive Airbnb',         sub:'79261 Spalding Dr' },
+  { day:1, sh:3,  sm:20, eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
+  { day:1, sh:7,  sm:0,  eh:15, em:0,  cls:'ev-work',    title:'💻 Erika works',           sub:'9 am–5 pm CT  ·  7 am–3 pm PT' },
+
+  // ── FRI APR 10 — Day 1 ──
+  { day:2, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
+  { day:2, sh:7,  sm:0,  eh:15, em:0,  cls:'ev-work',    title:'💻 Erika works',           sub:'9 am–5 pm CT  ·  7 am–3 pm PT' },
+  { day:2, sh:15, sm:0,  eh:24, em:0,  cls:'ev-fest',    title:'🎡 Coachella · Day 1',     sub:'Gates open 11 am PT  ·  Sabrina Carpenter headlines ~11 pm' },
+
+  // ── SAT APR 11 — Day 2 (Erika off) ──
+  { day:3, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
+  { day:3, sh:11, sm:0,  eh:24, em:0,  cls:'ev-fest',    title:'🎡 Coachella · Day 2',     sub:'Gates open 11 am PT  ·  Justin Bieber headlines ~11 pm' },
+
+  // ── SUN APR 12 — Day 3 (Erika off) ──
+  { day:4, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
+  { day:4, sh:11, sm:0,  eh:24, em:0,  cls:'ev-fest',    title:'🎡 Coachella · Day 3',     sub:'Gates open 11 am PT  ·  Karol G headlines ~10 pm' },
+
+  // ── MON APR 13 ──
+  { day:5, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
+  { day:5, sh:7,  sm:0,  eh:10, em:0,  cls:'ev-work',    title:'💻 Erika works',           sub:'9 am–12 pm CT  ·  7–10 am PT (half day)' },
+  { day:5, sh:10, sm:0,  eh:11, em:0,  cls:'ev-sage',    title:'Checkout',                 sub:'Airbnb · load car · by 11 am' },
+  { day:5, sh:12, sm:0,  eh:14, em:45, cls:'ev-drive',   title:'⚠ Depart by 12:00 pm',    sub:'Bermuda Dunes → LAX · ~2.5–3 hrs · I-10 midday window' },
+  { day:5, sh:14, sm:45, eh:15, em:20, cls:'ev-drive',   title:'Arrive LAX · rental return', sub:'~20 min return process' },
+  { day:5, sh:15, sm:20, eh:15, em:45, cls:'ev-flight',  title:'Shuttle → Terminal 1',     sub:'Southwest T1 · 10–15 min' },
+  { day:5, sh:15, sm:45, eh:16, em:30, cls:'ev-flight',  title:'Security + gate',          sub:'At gate by 4:15 pm' },
+  { day:5, sh:16, sm:45, eh:24, em:0,  cls:'ev-flight',  title:'✈ LAX → MDW',             sub:'Departs 4:45 pm PT · #BLRQ7E · Lands MDW 10:40 pm CT' },
+];
+
+// ── BUILD ────────────────────────────────────
+const TOTAL_HOURS = END_HOUR - START_HOUR + 1;
+const cal = document.getElementById('cal');
+
+// Header
+const thead = cal.createTHead();
+const headRow = thead.insertRow();
+
+const thTime = document.createElement('th');
+thTime.className = 'time-header';
+thTime.innerHTML = '<div class="th-inner" style="font-size:9px;color:#555;letter-spacing:.06em;text-transform:uppercase;">PT</div>';
+headRow.appendChild(thTime);
+
+DAYS.forEach(d => {
+  const th = document.createElement('th');
+  th.className = d.cls || '';
+  th.innerHTML = `<div class="th-inner">
+    <div class="th-day">${d.label} · APR</div>
+    <div class="th-date">${d.date}</div>
+    <div class="th-loc">${d.loc}</div>
+  </div>`;
+  headRow.appendChild(th);
+});
+
+// Body
+const tbody = cal.createTBody();
+
+// One tall td per day
+const dayTds = DAYS.map(d => {
+  const td = document.createElement('td');
+  let colCls = 'day-col';
+  if (d.cls === 'festival')   colCls += ' festival-col';
+  if (d.cls === 'travel-day') colCls += ' travel-col';
+  td.className = colCls;
+  td.style.height = (TOTAL_HOURS * PX) + 'px';
+  td.rowSpan = TOTAL_HOURS;
+  return td;
+});
+
+// Grid lines
+dayTds.forEach(td => {
+  for (let h = 0; h < TOTAL_HOURS; h++) {
+    const major = document.createElement('div');
+    major.style.cssText = `position:absolute;left:0;right:0;top:${h*PX}px;border-top:1px solid #E5DDD0;z-index:0;pointer-events:none;`;
+    td.appendChild(major);
+    const minor = document.createElement('div');
+    minor.style.cssText = `position:absolute;left:0;right:0;top:${h*PX+PX/2}px;border-top:1px dashed #EDE5D8;z-index:0;pointer-events:none;`;
+    td.appendChild(minor);
+  }
+});
+
+// Format time (hours may exceed 24)
+function fmt(h, m) {
+  const hh = h % 24;
+  const base = hh === 0 ? 12 : hh > 12 ? hh - 12 : hh;
+  const ampm = hh < 12 ? 'am' : 'pm';
+  const mm   = m === 0 ? '' : ':' + String(m).padStart(2,'0');
+  return base + mm + ' ' + ampm;
+}
+
+// Place events
+EVENTS.forEach(ev => {
+  const td = dayTds[ev.day];
+  const durationMins = (ev.eh - ev.sh) * 60 + (ev.em - ev.sm);
+  const topPx    = (ev.sh - START_HOUR) * PX + (ev.sm / 60 * PX);
+  const heightPx = Math.max(durationMins / 60 * PX - 2, 18);
+
+  const div = document.createElement('div');
+  div.className = 'event ' + ev.cls;
+  div.style.cssText = `position:absolute;top:${topPx}px;height:${heightPx}px;left:3px;right:3px;`;
+
+  const showTime = heightPx >= 22;
+  const showSub  = heightPx >= 40 && ev.sub;
+  const timeStr  = fmt(ev.sh, ev.sm) + ' – ' + fmt(ev.eh, ev.em);
+
+  let html = '';
+  if (showTime) html += `<span class="ev-time-label">${timeStr}</span>`;
+  html += `<span class="ev-title">${ev.title}</span>`;
+  if (showSub)  html += `<span class="ev-sub">${ev.sub}</span>`;
+
+  div.innerHTML = html;
+  td.appendChild(div);
+});
+
+// Time column rows
+for (let h = START_HOUR; h <= END_HOUR; h++) {
+  const tr = tbody.insertRow();
+  tr.style.height = PX + 'px';
+
+  const tc = document.createElement('td');
+  tc.className = 'time-cell';
+  tc.style.height = PX + 'px';
+
+  const h24 = h % 24;
+  let label = '';
+  if      (h24 === 0)  label = '<span style="color:#C4956A;font-weight:500;font-size:9.5px;">12 AM</span>';
+  else if (h24 < 12)   label = h24 + ' AM';
+  else if (h24 === 12) label = '<span style="color:#C4956A;font-weight:500;font-size:9.5px;">12 PM</span>';
+  else                 label = (h24 - 12) + ' PM';
+  tc.innerHTML = label;
+
+  tr.appendChild(tc);
+  if (h === START_HOUR) dayTds.forEach(td => tr.appendChild(td));
+}
+</script>
+</body>
+</html>
