@@ -265,12 +265,12 @@
   <div class="log-divider"></div>
 
   <div class="log-section">
-    <div class="log-section-title">🏨 Hotels</div>
+    <div class="log-section-title">🏨 Hotel</div>
     <div class="log-row">
-      <div class="log-label">Wed night</div>
-      <div class="log-val"><strong>LAX Airport Marriott</strong> &nbsp;·&nbsp; 5855 W Century Blvd, Los Angeles &nbsp;·&nbsp; Conf. <strong>77092971</strong></div>
+      <div class="log-label">Wed–Thu</div>
+      <div class="log-val"><strong>Courtyard by Marriott Palm Desert</strong> &nbsp;·&nbsp; 74895 Frank Sinatra Dr, Palm Desert CA &nbsp;·&nbsp; Conf. <strong>90110728</strong></div>
     </div>
-    <div class="log-note">Check in ~1 am · Check out after Erika's work day · Drive to Airbnb ~3 pm Thu</div>
+    <div class="log-note">Check in ~1 am Wed night · Erika works from hotel Thu · Drive to Airbnb ~3 pm Thu (~10 min)</div>
   </div>
 
   <div class="log-divider"></div>
@@ -339,15 +339,16 @@ const EVENTS = [
   { day:0, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',  title:'Sleep',                    sub:'' },
   { day:0, sh:19, sm:0,  eh:19, em:55, cls:'ev-drive',   title:'Head to Midway',           sub:'MDW · close by' },
   { day:0, sh:19, sm:55, eh:20, em:55, cls:'ev-flight',  title:'At MDW · WN3290',          sub:'Check-in · security · gate' },
-  { day:0, sh:20, sm:55, eh:24, em:0,  cls:'ev-flight',  title:'✈ MDW → LAX',              sub:'Departs 8:55 pm CT · 4h 25m · lands LAX 11:20 pm PT' },
+  { day:0, sh:20, sm:55, eh:23, em:20, cls:'ev-flight',  title:'✈ MDW → LAX',              sub:'Departs 8:55 pm CT · 4h 25m · lands LAX 11:20 pm PT' },
+  { day:0, sh:23, sm:20, eh:23, em:50, cls:'ev-flight',  title:'✈ Land LAX · 11:20 pm PT', sub:'Deplane · rental car pickup · ~30 min' },
+  { day:0, sh:23, sm:50, eh:24, em:0,  cls:'ev-drive',   title:'🚗 LAX → Palm Desert',     sub:'I-10 East · ~2 hrs · arrives ~1:30 am PT' },
 
   // ── THU APR 9 ──
-  { day:1, sh:0,  sm:0,  eh:0,  em:40, cls:'ev-flight',  title:'✈ Land LAX 11:20 pm',     sub:'Deplane · rental car pickup · ~40 min' },
-  { day:1, sh:0,  sm:40, eh:1,  em:0,  cls:'ev-drive',   title:'Check in to Marriott',     sub:'LAX Airport Marriott · 5855 W Century Blvd · Conf. 77092971' },
-  { day:1, sh:1,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep · LAX Marriott',     sub:'' },
-  { day:1, sh:7,  sm:0,  eh:15, em:0,  cls:'ev-work',    title:'💻 Erika works · Marriott', sub:'9 am–5 pm CT  ·  7 am–3 pm PT' },
-  { day:1, sh:15, sm:0,  eh:16, em:30, cls:'ev-drive',   title:'🚗 LAX → Bermuda Dunes',  sub:'I-10 East · ~1.5 hrs' },
-  { day:1, sh:16, sm:30, eh:17, em:0,  cls:'ev-sage',    title:'🏠 Arrive Airbnb',         sub:'79261 Spalding Dr, Bermuda Dunes' },
+  { day:1, sh:0,  sm:0,  eh:1,  em:30, cls:'ev-drive',   title:'🚗 LAX → Palm Desert',     sub:'I-10 East · ~2 hrs total · arriving ~1:30 am PT' },
+  { day:1, sh:1,  sm:30, eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep · Courtyard Palm Desert', sub:'74895 Frank Sinatra Dr · Conf. 90110728' },
+  { day:1, sh:7,  sm:0,  eh:15, em:0,  cls:'ev-work',    title:'💻 Erika works · Courtyard', sub:'9 am–5 pm CT  ·  7 am–3 pm PT' },
+  { day:1, sh:15, sm:0,  eh:15, em:20, cls:'ev-drive',   title:'🚗 Palm Desert → Airbnb',  sub:'~10 min to Bermuda Dunes' },
+  { day:1, sh:15, sm:20, eh:16, em:0,  cls:'ev-sage',    title:'🏠 Arrive Airbnb',         sub:'79261 Spalding Dr, Bermuda Dunes' },
 
   // ── FRI APR 10 — Day 1 ──
   { day:2, sh:0,  sm:0,  eh:7,  em:0,  cls:'ev-sleep',   title:'Sleep',                    sub:'' },
